@@ -179,7 +179,123 @@ const LovePage = () => {
           </Fragment>
         ) : (
           <Fragment>
-            <BounceText text="¡TE AMO!" variant="h1" fontWeight={800} space={25} />
+            <Box
+              sx={{
+                position: "relative",
+                cursor: "pointer",
+                "&:hover .heart": { transform: "translateY(-50px) rotate(-45deg)" },
+                "&:hover .text": { transform: "translateY(-110px)", opacity: 1 },
+                "&:hover .span-text": { animation: "bounce 1s infinite" },
+              }}
+            >
+              <Box
+                className="envelope"
+                sx={{
+                  position: "relative",
+                  filter: "drop-shadow(0 0 25px rgba(0,0,0,.3))",
+                  "&:before, &:after": {
+                    content: '""',
+                    position: "absolute",
+                    backgroundColor: "#ff9494",
+                    transition: "background-color 0.3s ease-in-out",
+                  },
+                  "&:before": {
+                    width: "254px",
+                    height: "254px",
+                    transform: "rotate(-45deg)",
+                    borderRadius: "0 15px 0 0",
+                    left: "-37px",
+                    top: "-82px",
+                  },
+                  "&:after": {
+                    width: "360px",
+                    height: "225px",
+                    left: "-90px",
+                    top: "45px",
+                  },
+                }}
+              />
+              <Box
+                className="heart"
+                sx={{
+                  position: "relative",
+                  backgroundColor: " #e01911",
+                  display: "inline-block",
+                  height: "180px",
+                  top: "50px",
+                  left: 0,
+                  transform: "rotate(-45deg)",
+                  width: "180px",
+                  filter: "drop-shadow(0 -10px 25px rgba(0,0,0,.3))",
+                  transition: ".5s",
+                  "&:before, &:after": {
+                    content: '""',
+                    position: "absolute",
+                    backgroundColor: "#e01911",
+                    borderRadius: "50%",
+                    height: "180px",
+                    width: "180px",
+                  },
+                  "&:before": {
+                    left: "0",
+                    top: "-100px",
+                  },
+                  "&:after": {
+                    left: "100px",
+                    top: "0",
+                  },
+                }}
+              />
+              <Box
+                className="text"
+                sx={{
+                  position: "absolute",
+                  letterSpacing: "5px",
+                  textAlign: "center",
+                  color: "white",
+                  zIndex: 2,
+                  top: "110px",
+                  left: "15px",
+                  opacity: 0,
+                  transition: ".5s",
+                }}
+              >
+                <BounceText text="¡TE AMO!" animation={false} variant="h3" fontWeight={800} space={25} />
+              </Box>
+              <Box
+                className="front"
+                sx={{
+                  position: "absolute",
+                  width: 0,
+                  height: 0,
+                  borderRight: "190px solid #fbd2d2",
+                  borderTop: "113px solid transparent",
+                  borderBottom: "113px solid transparent",
+                  top: "44px",
+                  left: "80px",
+                  zIndex: 4,
+                  "&:before, &:after": {
+                    content: '""',
+                    position: "absolute",
+                    width: 0,
+                    height: 0,
+                    left: "-170px",
+                  },
+                  "&:before": {
+                    borderLeft: "190px solid #fbd2d2",
+                    borderTop: "113px solid transparent",
+                    borderBottom: "113px solid transparent",
+                    top: "-113px",
+                  },
+                  "&:after": {
+                    borderBottom: "150px solid #fce7e9",
+                    borderRight: "180px solid transparent",
+                    borderLeft: "180px solid transparent",
+                    top: "-36px",
+                  },
+                }}
+              />
+            </Box>
           </Fragment>
         )}
       </Box>
@@ -210,8 +326,8 @@ const LovePage = () => {
             bottom: 24,
             right: 0,
             left: 0,
+            animation: "bounce .5s infinite",
             "& .MuiButtonBase-root": { backgroundColor: "white", height: 100, width: 100 },
-            "&:hover": { animation: "bounce .5s infinite" },
           }}
           onClick={handleReset}
           icon={
@@ -256,8 +372,10 @@ const LovePage = () => {
 };
 
 const BounceText = (props) => {
-  const { text = "text", bounceTime = 1, variant = "h2", fontWeight = 700, textTransform = "uppercase", space = 20 } = props;
+  const { text = "text", bounceTime = 1, animation = true, variant = "h2", fontWeight = 700, textTransform = "uppercase", space = 20 } = props;
   let delayNumber = 0;
+
+  const animeStyle = animation ? { animation: `bounce ${bounceTime}s infinite` } : {};
 
   return (
     <>
@@ -267,9 +385,10 @@ const BounceText = (props) => {
             {item.split("").map((word, i) => (
               <span
                 key={i}
+                className="span-text"
                 style={{
                   display: "inline-block",
-                  animation: `bounce ${bounceTime}s infinite`,
+                  ...animeStyle,
                   animationDelay: `${delayNumber++ * 0.05}s`,
                 }}
               >
