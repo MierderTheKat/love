@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight, Favorite, ThumbDown } from "@mui/icons-mater
 
 const LovePage = () => {
   const path = window.location.pathname;
-  const pathParts = path.split("/");
+  const pathParts = path.split("/").map(part => decodeURIComponent(part));
   const name = pathParts[1] || "mi amor!";
   const text1 = pathParts[2] || "Hemos compartido momentos mágicos y preciosos";
   const text2 = pathParts[3] || "Y quiero seguir creando momentos especiales llenos de amor y felicidad a tu lado";
