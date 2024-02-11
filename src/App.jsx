@@ -39,7 +39,7 @@ const LovePage = () => {
     setNoSize(40);
     setTimeout(() => {
       setStep(0);
-    }, 1900);
+    }, 1000);
 
     setTimeout(() => {
       setShowFloatingHeart(false);
@@ -55,11 +55,11 @@ const LovePage = () => {
     setShowFloatingHeart(true);
     setTimeout(() => {
       setStep((prevStep) => prevStep + 1);
-    }, 1900);
+      setYesSize(40);
+    }, 1000);
 
     setTimeout(() => {
       setShowFloatingHeart(false);
-      setYesSize(40);
     }, 2000);
   };
 
@@ -69,7 +69,32 @@ const LovePage = () => {
   }, []);
 
   return (
-    <Container sx={{ paddingX: 3 }}>
+    <Container sx={{ paddingX: 3, userSelect: "none" }}>
+      <style>{`
+              @keyframes floatHeart {
+                0% { transform: translate(-50%, -50%) scale(0); }
+                50% { transform: translate(-50%, -50%) scale(100); }
+                100% { transform: translate(-50%, -50%) scale(0); }
+              }
+
+              @keyframes bounce {
+                0%,100%{ transform:translate(0); }
+                25%{ transform:rotateX(20deg) translateY(2px) rotate(-3deg); }
+                50%{ transform:translateY(-10px) rotate(3deg) scale(1.05);  }
+              }
+
+              @keyframes bounceSlow {
+                0%, 100% { transform: translate(0); }
+                25% { transform: rotateX(20deg) }
+                50% { transform:  scale(1.1); }
+              }
+
+              @keyframes dislike {
+                0%, 100% { transform: translate(0); }
+                25% { transform: rotate(8deg) }
+                50% { transform:  rotate(-8deg); }
+              }
+            `}</style>
       <Box
         sx={{
           height: "90vh",
@@ -83,27 +108,16 @@ const LovePage = () => {
         {finish ? (
           <Fragment>
             {step === 0 && <BounceText text="¡Hola mi amor!" />}
-            {step === 1 && (
-              <Typography align="center" variant="h3" fontWeight={600}>
-                Ambos hemos estado en muchas etapas importantes.
-              </Typography>
-            )}
-            {step === 2 && (
-              <Typography align="center" variant="h3" fontWeight={600}>
-                Y me gustaria seguir compartiendo MUCHOS recuerdos a tu lado.
-              </Typography>
-            )}
+            {step === 1 && <BounceHoverText text="Hemos compartido momentos mágicos y preciosos" />}
+            {step === 2 && <BounceHoverText text="Y quiero seguir creando momentos especiales llenos de amor y felicidad a tu lado" />}
             {step === 3 && (
               <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-                <Typography align="center" variant="h3" fontWeight={600}>
-                  ¿Te gustaria ser mi Valentin?
-                </Typography>
+                <BounceHoverText text="¿Serías mi Valentin?" />
                 <Box sx={{ width: { xs: 0 }, display: "flex", alignItems: "center", justifyContent: "center" }}>
                   <Box
                     sx={{
                       marginTop: 3,
                       display: "flex",
-
                       width: { xs: 0, sm: "1000px" },
                       flexDirection: { xs: "column-reverse", sm: "row" },
                       alignItems: "center",
@@ -117,8 +131,18 @@ const LovePage = () => {
                         color="warning"
                         size="large"
                         onClick={handleNO}
-                        sx={{ minWidth: 0, paddingX: noSize >= 20 ? "21px" : noSize >= 10 ? 2 : noSize > 0 ? 1 : "4px" }}
-                        endIcon={noSize > 0 ? <ThumbDown sx={{ color: "#000", fontSize: noSize + "px !important" }} /> : <></>}
+                        sx={{
+                          minWidth: 0,
+                          paddingX: noSize >= 20 ? "21px" : noSize >= 10 ? 2 : noSize > 0 ? 1 : "4px",
+                          "&:hover": { animation: "bounce .2s" },
+                        }}
+                        endIcon={
+                          noSize > 0 ? (
+                            <ThumbDown sx={{ color: "#000", fontSize: noSize + "px !important", animation: "dislike 1s infinite" }} />
+                          ) : (
+                            <></>
+                          )
+                        }
                       >
                         <Typography align="center" variant="h3" fontWeight={600} fontSize={noSize + 8}>
                           ¡NO!
@@ -132,8 +156,17 @@ const LovePage = () => {
                       color="success"
                       size="large"
                       onClick={handleYES}
-                      sx={{ transition: "all 0.3s ease-in-out" }}
-                      endIcon={<Favorite sx={{ color: "#ff0000", fontSize: yesSize + "px !important", transition: "all 0.3s ease-in-out" }} />}
+                      sx={{ transition: "all 0.3s ease-in-out", "&:hover": { animation: "bounce .2s" } }}
+                      endIcon={
+                        <Favorite
+                          sx={{
+                            color: "#ff0000",
+                            fontSize: yesSize + "px !important",
+                            transition: "all 0.3s ease-in-out",
+                            animation: "bounceSlow .5s infinite",
+                          }}
+                        />
+                      }
                     >
                       <Typography align="center" variant="h3" fontWeight={600} fontSize={yesSize + 8} sx={{ transition: "all 0.3s ease-in-out" }}>
                         ¡SIII!
@@ -178,6 +211,7 @@ const LovePage = () => {
             right: 0,
             left: 0,
             "& .MuiButtonBase-root": { backgroundColor: "white", height: 100, width: 100 },
+            "&:hover": { animation: "bounce .5s infinite" },
           }}
           onClick={handleReset}
           icon={
@@ -191,11 +225,6 @@ const LovePage = () => {
           }
         />
       )}
-
-      <style>{` @keyframes floatHeart {
-                  0% { transform: translate(-50%, -50%) scale(0); }
-                  100% { transform: translate(-50%, -50%) scale(100); }
-                }`}</style>
 
       {showFloatingHeart && (
         <div
@@ -232,11 +261,6 @@ const BounceText = (props) => {
 
   return (
     <>
-      <style>{` @keyframes bounce {
-                  0%,100%{ transform:translate(0); }
-                  25%{ transform:rotateX(20deg) translateY(2px) rotate(-3deg); }
-                  50%{ transform:translateY(-10px) rotate(3deg) scale(1.05);  }
-                }`}</style>
       <Typography align="center" variant={variant} fontWeight={fontWeight} textTransform={textTransform}>
         {text.split(" ").map((item, index) => (
           <span key={index} style={{ display: "inline-block", marginRight: space }}>
@@ -251,6 +275,26 @@ const BounceText = (props) => {
               >
                 {word}
               </span>
+            ))}
+          </span>
+        ))}
+      </Typography>
+    </>
+  );
+};
+
+const BounceHoverText = (props) => {
+  const { text = "text", variant = "h3", fontWeight = 600, space = 16 } = props;
+
+  return (
+    <>
+      <Typography align="center" variant={variant} fontWeight={fontWeight}>
+        {text.split(" ").map((item, index) => (
+          <span key={index} style={{ display: "inline-block", marginRight: space }}>
+            {item.split("").map((word, i) => (
+              <Box key={i} sx={{ display: "inline-block", "&:hover": { animation: "bounce .2s" }, cursor: { xs: "", md: "pointer" } }}>
+                {word}
+              </Box>
             ))}
           </span>
         ))}
