@@ -1,19 +1,19 @@
 {
-    "name": "Love",
-    "short_name": "Love",
-    "icons": [
-        {
-           "src": "./src/assets/react.svg",
-            "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "./src/assets/react.svg",
-            "sizes": "512x512",
-            "type": "image/png"
-        }
-    ],
-    "theme_color": "#32456a",
-    "background_color": "#32456a",
-    "display": "standalone"
+  "name": "Love FyV",
+  "short_name": "Love FyV",
+  "icons": [
+    {
+      "src": "./src/assets/icons/Love-logo-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./src/assets/icons/Love-logo-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#32456a",
+  "background_color": "#32456a",
+  "display": "standalone"
 }
