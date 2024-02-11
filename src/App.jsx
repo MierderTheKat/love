@@ -3,12 +3,21 @@ import { Container, Box, Typography, SpeedDial, Button } from "@mui/material";
 import { ChevronLeft, ChevronRight, Favorite, ThumbDown } from "@mui/icons-material";
 
 const LovePage = () => {
+  const path = window.location.pathname;
+  const pathParts = path.split("/");
+  const name = pathParts[1] || "mi amor!";
+  const text1 = pathParts[2] || "Hemos compartido momentos mágicos y preciosos";
+  const text2 = pathParts[3] || "Y quiero seguir creando momentos especiales llenos de amor y felicidad a tu lado";
+  const question = pathParts[4] || "¿Serías mi Valentin?";
+  const textFinal = pathParts[5] || "¡TE AMO!";
+
   const [step, setStep] = useState(0);
   const [beat, setBeat] = useState(false);
   const [transitionOut, setTransitionOut] = useState(false);
   const [showFloatingHeart, setShowFloatingHeart] = useState(false);
   const [yesSize, setYesSize] = useState(40);
   const [noSize, setNoSize] = useState(40);
+  const [runAnimation, setRunAnimation] = useState(false);
 
   const finish = step !== 4;
 
@@ -52,6 +61,7 @@ const LovePage = () => {
   };
 
   const handleYES = () => {
+    setRunAnimation(false);
     setShowFloatingHeart(true);
     setTimeout(() => {
       setStep((prevStep) => prevStep + 1);
@@ -60,6 +70,7 @@ const LovePage = () => {
 
     setTimeout(() => {
       setShowFloatingHeart(false);
+      setTimeout(() => setRunAnimation(true), 500);
     }, 2000);
   };
 
@@ -107,12 +118,12 @@ const LovePage = () => {
       >
         {finish ? (
           <Fragment>
-            {step === 0 && <BounceText text="¡Hola mi amor!" />}
-            {step === 1 && <BounceHoverText text="Hemos compartido momentos mágicos y preciosos" />}
-            {step === 2 && <BounceHoverText text="Y quiero seguir creando momentos especiales llenos de amor y felicidad a tu lado" />}
+            {step === 0 && <BounceText text={`¡Hola ${name}`} />}
+            {step === 1 && <BounceHoverText text={text1} />}
+            {step === 2 && <BounceHoverText text={text2} />}
             {step === 3 && (
               <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-                <BounceHoverText text="¿Serías mi Valentin?" />
+                <BounceHoverText text={question} />
                 <Box sx={{ width: { xs: 0 }, display: "flex", alignItems: "center", justifyContent: "center" }}>
                   <Box
                     sx={{
@@ -180,12 +191,13 @@ const LovePage = () => {
         ) : (
           <Fragment>
             <Box
+              id="hover-item"
               sx={{
                 position: "relative",
                 cursor: "pointer",
-                "&:hover .heart": { transform: "translateY(-50px) rotate(-45deg)" },
-                "&:hover .text": { transform: "translateY(-110px)", opacity: 1 },
-                "&:hover .span-text": { animation: "bounce 1s infinite" },
+                "&:hover .heart": { transform: runAnimation ? "translateY(-50px) rotate(-45deg)" : "" },
+                "&:hover .text": { transform: runAnimation ? "translateY(-110px)" : "", opacity: runAnimation ? 1 : 0 },
+                "&:hover .span-text": { animation: runAnimation ? "bounce 1s infinite" : "" },
               }}
             >
               <Box
@@ -260,7 +272,7 @@ const LovePage = () => {
                   transition: ".5s",
                 }}
               >
-                <BounceText text="¡TE AMO!" animation={false} variant="h3" fontWeight={800} space={25} />
+                <BounceText text={textFinal} animation={false} variant="h3" fontWeight={800} space={25} />
               </Box>
               <Box
                 className="front"
