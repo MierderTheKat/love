@@ -32,7 +32,6 @@ const LovePage = () => {
         maxWidth: { xs: "100vw", sm: "75vw", lg: "50vw" },
         display: "flex",
         flexDirection: "column",
-        justifyContent: { xs: "left", sm: "center" },
       }}
     >
       <style>{`
