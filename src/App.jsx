@@ -8,7 +8,7 @@ const LovePage = () => {
   const name = pathParts[1] || "mi amor!";
   const text1 = pathParts[2] || "Hemos compartido momentos mágicos y preciosos";
   const text2 = pathParts[3] || "Y quiero seguir creando momentos especiales llenos de amor y felicidad a tu lado";
-  const question = pathParts[4] || "¿Serías mi Valentin?";
+  const question = pathParts[4] + "?" || "¿Serías mi Valentin?";
   const textFinal = pathParts[5] || "¡TE AMO!";
 
   const [step, setStep] = useState(0);
@@ -272,7 +272,11 @@ const LovePage = () => {
                   transition: ".5s",
                 }}
               >
-                <BounceText text={textFinal} animation={false} fontWeight={800} space={25} />
+                <Box sx={{ position: "absolute", width: 0, left: -75 }}>
+                  <Box sx={{ position: "relative", width: 300 }}>
+                    <BounceText text={textFinal} animation={false} fontWeight={800} space={25} />
+                  </Box>
+                </Box>
               </Box>
               <Box
                 className="front"
