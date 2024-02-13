@@ -8,7 +8,7 @@ const LovePage = () => {
   const name = pathParts[1] || "mi amor!";
   const text1 = pathParts[2] || "Hemos compartido momentos mágicos y preciosos";
   const text2 = pathParts[3] || "Y quiero seguir creando momentos especiales llenos de amor y felicidad a tu lado";
-  const question = pathParts[4] + "?" || "¿Serías mi Valentin?";
+  const question = pathParts[4] ? pathParts[4] + "?" : "¿Serías mi Valentin?";
   const textFinal = pathParts[5] || "¡TE AMO!";
 
   const [step, setStep] = useState(0);
@@ -105,7 +105,16 @@ const LovePage = () => {
                 25% { transform: rotate(8deg) }
                 50% { transform:  rotate(-8deg); }
               }
+
+              body,
+              html {
+                overflow-x: hidden;
+                overflow-y: hidden;
+                margin: 0;
+                padding: 0;
+              }
             `}</style>
+
       <Box
         sx={{
           height: "90vh",
